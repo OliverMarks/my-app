@@ -35,6 +35,8 @@
   max-height: 700px;
   max-width: 300px;
   padding: 5px;
+  border-right: solid 2px black;
+
 }
 
 
@@ -59,37 +61,57 @@
 }
 
 .search-image-results {
-  margin-top: 10px;
+  margin-top: 25px;
 }
 
 .searchImage {
   height: 90px; 
   width: 90px;
-  cursor: pointer;
 
 }
 
 .searchImage:hover {
   height: 100px;
-  width:100px
+  width:100px;
+  cursor: pointer; 
 }
+
+
 
 .canvas {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr; 
-  grid-template-rows: auto;  
- 
-  column-gap: 3px;
-  row-gap: 0px;
-  padding:5px;
+  grid-template-rows: max-content;
+  gap: 3px;
+  padding:15px;
+  
 }
 
 .canvas-image {
   height: 200px;
   width: 200px;
-  cursor: pointer;
+  border: solid 2px black;
+  
 }
 
 .canvas-image:hover {
   opacity: 0.5;
+
 }
+
+
+.canvas-list {
+  text-align: left;
+  padding: 5px;
+  
+
+
+}
+
+
+
+ li {
+  list-style: square;
+
+}
+

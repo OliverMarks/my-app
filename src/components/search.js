@@ -117,9 +117,10 @@ export default function Search () {
         
         <div className = "sidebar">
         <form  onSubmit={handleFetchAlbumMatches}>
-            <label htmlFor = "albumSearch">Search for an Album</label>
+            <h3>Build a canvas of your favourite albums</h3>
             <input 
             type="text" 
+            placeholder='Search for an album or artist '
             id="albumSearch"
             value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
