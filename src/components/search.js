@@ -5,7 +5,7 @@ let suggestedMatches
 
 export default function Search () {
    
-   
+    
    
     const API_KEY = '1b8d2b8142ed03f9e130a7655529fc7d'
    const [searchMatches, setSearchMatches] = React.useState( [{
@@ -24,10 +24,10 @@ export default function Search () {
 
    const [searchInput, setSearchInput] = React.useState("")
    const [canvas, setCanvas] = React.useState([])
-
+    
    
    const fetchAlbumMatches = (searchInput) => {
-     
+   
      setSearchMatches([]); 
 
 
@@ -138,7 +138,9 @@ export default function Search () {
         <button onClick={clearCanvas}>Clear canvas</button>
         
         <div className="search-image-results">
-            {suggestedMatches}
+             {suggestedMatches} 
+            
+            
         </div>
 
         </div>
