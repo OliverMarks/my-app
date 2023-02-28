@@ -15,7 +15,7 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -24,15 +24,72 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+
+
+.container {
+  display: flex;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.sidebar {
+  overflow: auto;
+  max-height: 700px;
+  max-width: 300px;
+  padding: 5px;
+}
+
+
+
+.selected-album {
+  padding: 5px;
+  margin-bottom: 5px ;
+}
+
+.selected-album > h1 {
+  font-size: 22px;
+}
+
+.selected-album > h2 {
+  font-size: 16px;
+}
+
+.selected-album-cover{
+  height: 150px;
+  width: 150px;
+ 
+}
+
+.search-image-results {
+  margin-top: 10px;
+}
+
+.searchImage {
+  height: 90px; 
+  width: 90px;
+  cursor: pointer;
+
+}
+
+.searchImage:hover {
+  height: 100px;
+  width:100px
+}
+
+.canvas {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr; 
+  grid-template-rows: auto;  
+ 
+  column-gap: 3px;
+  row-gap: 0px;
+  padding:5px;
+}
+
+.canvas-image {
+  height: 200px;
+  width: 200px;
+  cursor: pointer;
+}
+
+.canvas-image:hover {
+  opacity: 0.5;
 }
