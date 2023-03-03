@@ -1,10 +1,60 @@
-import React from 'react'
+import React, { useState, useEffect } from "react";
 
 
 let suggestedMatches
 
-export default function Search () {
+
+ export default function Search () {
    
+
+    // config checkbox
+    const [configChecked, setConfigChecked] = React.useState(false)
+  
+    const handleConfigCheckChange = () => {
+      setConfigChecked(!configChecked)
+    }
+
+   
+      // Columns and rows of Grid
+    const [rows, setRows] = useState(5);
+    const [columns, setColumns] = useState(5);
+  
+    const handleRowChange = (event) => {
+      const value = parseInt(event.target.value, 10);
+      setRows(value);
+    };
+  
+    const handleColumnChange = (event) => {
+      const value = parseInt(event.target.value, 10);
+      setColumns(value);
+    };
+
+     // Maximum number of images
+  const [maxImages, setMaxImages] = useState(rows * columns);
+
+  useEffect(() => {
+    setMaxImages(rows * columns);
+  }, [rows, columns]);
+  
+    const gridTemplate = `repeat(${rows}, 1fr) / repeat(${columns}, 1fr)`;
+  
+  
+    // list checkboxes
+    const [listChecked, setListChecked] = React.useState(false)
+  
+    const handleListCheckChange = () => {
+      setListChecked(!listChecked)
+    }
+  
+    
+
+
+
+
+
+
+
+// Search functionality
     
    
     const API_KEY = '1b8d2b8142ed03f9e130a7655529fc7d'
@@ -23,7 +73,7 @@ export default function Search () {
     })
 
    const [searchInput, setSearchInput] = React.useState("")
-   const [canvas, setCanvas] = React.useState([])
+   const [imageGrid, setImageGrid] = React.useState([])
     
    
    const fetchAlbumMatches = (searchInput) => {
@@ -63,14 +113,23 @@ export default function Search () {
       .catch(error => console.error(error));
   }
   
-  const addToCanvas = () => {
-    setCanvas (prev => 
-        [...prev, {artist: selectedAlbum.artist, title: selectedAlbum.title, image:selectedAlbum.image}]
-    )
-  }
+  const addToImageGrid = () => {
+    if (imageGrid.length < maxImages) {
+      setImageGrid(prev => [
+        ...prev,
+        {
+          artist: selectedAlbum.artist,
+          title: selectedAlbum.title,
+          image: selectedAlbum.image
+        }
+      ]);
+    } else {
+      alert("Grid limit reached, use grid config to resize grid");
+    }
+  };
 
-  const clearCanvas = () => {
-    setCanvas ([]) 
+  const clearImageGrid = () => {
+    setImageGrid ([]) 
   }
 
    const handleFetchAlbumMatches = (e) => {
@@ -78,22 +137,21 @@ export default function Search () {
     fetchAlbumMatches(searchInput)
    }
 
-   const handleRemoveFromCanvas = (index) => {
-    setCanvas((prevCanvas) => prevCanvas.filter((_, i) => i !== index));
+   const handleRemoveFromImageGrid = (index) => {
+    setImageGrid((prevImageGrid) => prevImageGrid.filter((_, i) => i !== index));
   };
   
 
 
-
-   const canvasImg = canvas.map((albumImage, idx) => {
+    const imageGridImg = imageGrid.slice(0, maxImages).map((albumImage, idx) => {
               return  <img key={idx} src={albumImage.image} alt="" 
               className='canvas-image'
-              onClick={() => handleRemoveFromCanvas(idx)}             
+              onClick={() => handleRemoveFromImageGrid(idx)}             
               
               />
    })
 
-   const canvasList = canvas.map((album, idx) => {
+   const canvasList = imageGrid.slice(0, maxImages).map((album, idx) => {
                 return <li key={idx}>{`${album.artist} - ${album.title}`}</li>
    })
 
@@ -113,11 +171,60 @@ export default function Search () {
   
    
     return (
-        <div className='container'>
+      
+      
+      
+      <div className='container'>
+
         
         <div className = "sidebar">
         <form  onSubmit={handleFetchAlbumMatches}>
-            <h3>Build a canvas of your favourite albums</h3>
+            <h3>Build a collage of your favourite albums</h3>
+            <label htmlFor="config-checkbox">
+            Show Grid Configuation</label>
+          <input 
+          type="checkbox" 
+          id="config-checkbox"
+          value={configChecked} 
+           onChange = {handleConfigCheckChange}
+        />
+        {configChecked ? 
+            <div className="canvas-config">
+        
+          <label htmlFor="checkbox">
+            Show artist and album list</label>
+          <input 
+          type="checkbox" 
+          id="checkbox"
+          value={listChecked} 
+           onChange = {handleListCheckChange}
+        />
+
+          <label htmlFor="grid-dimensions-rows">
+            Grid Rows</label>
+          <input className="num-input"
+          type="number" 
+          id="grid-dimensions-rows" 
+          min={1}
+          value={rows} 
+          onChange={handleRowChange} 
+          />
+          <label htmlFor="grid-dimensions-columns">
+            Grid Columns</label>
+          <input className="num-input"
+          type="number" 
+          id="grid-dimensions-columns" 
+          min={1}
+          value={columns} 
+          onChange={handleColumnChange} 
+          />
+
+         
+          
+        
+      </div>
+      :null}
+            
             <input 
             type="text" 
             placeholder='Search for an album or artist '
@@ -135,8 +242,8 @@ export default function Search () {
             <img src={selectedAlbum.image} alt="selected album" className='selected-album-cover'></img>
 
         </div>
-        <button onClick={addToCanvas}>Add to canvas</button>
-        <button onClick={clearCanvas}>Clear canvas</button>
+        <button onClick={addToImageGrid}>Add to collage</button>
+        <button onClick={clearImageGrid}>Clear collage</button>
         
         <div className="search-image-results">
              {suggestedMatches} 
@@ -146,17 +253,21 @@ export default function Search () {
 
         </div>
 
-        <div className='canvas'>
-           {canvasImg}
-        </div>
+        <div className="canvas" style={{ gridTemplate }}>
+        {imageGridImg}
+      </div>
 
         <div className='canvas-list'>
-                <ul>
+                {listChecked ?  <ul>
                     {canvasList}
-                </ul>
+                </ul>:null}
+              
 
         </div>
 
         </div>
     )
 }
+
+
+

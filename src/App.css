@@ -22,6 +22,8 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  height: 5vh;
+  padding: 5px
 }
 
 
@@ -82,14 +84,16 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr; 
   grid-template-rows: max-content;
+  width: 50vw;
+  height: 100vh;;
   gap: 3px;
   padding:15px;
   
 }
 
 .canvas-image {
-  height: 200px;
-  width: 200px;
+  width: 100%;
+  height: auto;
   border: solid 2px black;
   
 }
@@ -115,3 +119,21 @@
 
 }
 
+
+.canvas-config {
+  display: flex; 
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; 
+  padding: 5px;
+
+}
+
+label {
+  display: inline-block;
+  text-align: left;
+}
+
+.num-input {
+  width: 30px;
+}
