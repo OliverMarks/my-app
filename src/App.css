@@ -1,35 +1,31 @@
 .App {
   text-align: center;
+  
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
 
 .App-header {
-  background-color: #282c34;
+  background-color: rgb(57, 53, 53);
 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-size: calc(6px + 2vmin);
   color: white;
-  height: 5vh;
-  padding: 5px
+  height: 100px;
+  padding: 5px;
+  border-bottom: solid 3px white;
 }
 
-
+button {
+  cursor: pointer;
+}
 
 .container {
   display: flex;
+  
 }
 
 .sidebar {
@@ -38,6 +34,7 @@
   max-width: 300px;
   padding: 5px;
   border-right: solid 2px black;
+                                 
 
 }
 
@@ -84,29 +81,39 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr; 
   grid-template-rows: max-content;
-  width: 50vw;
-  height: 100vh;;
-  gap: 3px;
+  width: 60vw;
+  height: fit-content;
+  column-gap: 3px;
   padding:15px;
+  
+  background-color: rgb(57, 53, 53);
   
 }
 
 .canvas-image {
   width: 100%;
   height: auto;
-  border: solid 2px black;
+  border: solid 2px rgb(57, 53, 53);
   
 }
 
 .canvas-image:hover {
   opacity: 0.5;
+  cursor: url(./images/remove.png),pointer;
 
 }
+
+
+
 
 
 .canvas-list {
   text-align: left;
   padding: 5px;
+  color:white;
+  background-color: rgb(57, 53, 53);
+  width: 300px;
+
   
 
 
@@ -126,14 +133,39 @@
   align-items: center;
   justify-content: center; 
   padding: 5px;
+  border: solid 2px rgb(57, 53, 53);
+  margin: 5px;
 
 }
 
 label {
   display: inline-block;
-  text-align: left;
+  
+  
 }
+
+
 
 .num-input {
   width: 30px;
+  margin-left: 5px;
+}
+
+
+.placeholder-text {
+  padding: 5px;
+  width: 100%;
+}
+
+ .placeholder-ul {
+  display: inline-block;
+  text-align: left;
+}
+
+.placeholder-ul > li {
+  margin: 10px;
+}
+
+.print {
+  display: flex;
 }

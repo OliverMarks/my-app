@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import html2canvas from 'html2canvas'
+
 
 
 let suggestedMatches
@@ -16,8 +18,8 @@ let suggestedMatches
 
    
       // Columns and rows of Grid
-    const [rows, setRows] = useState(5);
-    const [columns, setColumns] = useState(5);
+    const [rows, setRows] = useState(4);
+    const [columns, setColumns] = useState(4);
   
     const handleRowChange = (event) => {
       const value = parseInt(event.target.value, 10);
@@ -39,13 +41,29 @@ let suggestedMatches
     const gridTemplate = `repeat(${rows}, 1fr) / repeat(${columns}, 1fr)`;
   
   
-    // list checkboxes
+    // show list checkboxes
     const [listChecked, setListChecked] = React.useState(false)
   
     const handleListCheckChange = () => {
       setListChecked(!listChecked)
     }
   
+    // download the collage as a png 
+    const handleDownloadImage = async () => {
+      const element = document.getElementById('print');
+      const canvas = await html2canvas(element);
+      const data = canvas.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.href = data;
+      link.download = 'downloaded-image.png';
+    
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    };
+    
+    
+    
     
 
 
@@ -74,6 +92,7 @@ let suggestedMatches
 
    const [searchInput, setSearchInput] = React.useState("")
    const [imageGrid, setImageGrid] = React.useState([])
+    
     
    
    const fetchAlbumMatches = (searchInput) => {
@@ -112,7 +131,7 @@ let suggestedMatches
 
       .catch(error => console.error(error));
   }
-  
+  // adding image to grid
   const addToImageGrid = () => {
     if (imageGrid.length < maxImages) {
       setImageGrid(prev => [
@@ -128,34 +147,65 @@ let suggestedMatches
     }
   };
 
+  // clear images
   const clearImageGrid = () => {
     setImageGrid ([]) 
   }
-
+  const handleRemoveFromImageGrid = (index) => {
+    setImageGrid((prevImageGrid) => prevImageGrid.filter((_, i) => i !== index));
+  };
+  
+// handle fetching images
    const handleFetchAlbumMatches = (e) => {
     e.preventDefault()
     fetchAlbumMatches(searchInput)
    }
 
-   const handleRemoveFromImageGrid = (index) => {
-    setImageGrid((prevImageGrid) => prevImageGrid.filter((_, i) => i !== index));
+  
+  // handling the drag functionality 
+  const handleDragStart = (e, index) => {
+    e.dataTransfer.setData("index", index);
   };
   
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+  
+  const handleDrop = (e, index) => {
+    e.preventDefault();
+    const startIndex = e.dataTransfer.getData("index");
+    if (startIndex !== index) {
+      const newOrder = [...imageGrid];
+      const movedItem = newOrder.splice(startIndex, 1)[0];
+      newOrder.splice(index, 0, movedItem);
+      setImageGrid(newOrder);
+    }
+  };
 
+  const imageGridImg = imageGrid.slice(0, maxImages).map((albumImage, idx) => {
+    return (  
+      <img
+        key={idx}
+        src={albumImage.image}
+        alt=""
+        aria-label="Click to remove"
+        className="canvas-image"
+        onDoubleClick={() => handleRemoveFromImageGrid(idx)}
+        draggable="true"
+        onDragStart={(e) => handleDragStart(e, idx)}
+        onDragOver={(e) => handleDragOver(e)}
+        onDrop={(e) => handleDrop(e, idx)}
+      />
+    );
+  });
 
-    const imageGridImg = imageGrid.slice(0, maxImages).map((albumImage, idx) => {
-              return  <img key={idx} src={albumImage.image} alt="" 
-              className='canvas-image'
-              onClick={() => handleRemoveFromImageGrid(idx)}             
-              
-              />
-   })
+ // List of albums in the collage 
 
    const canvasList = imageGrid.slice(0, maxImages).map((album, idx) => {
                 return <li key={idx}>{`${album.artist} - ${album.title}`}</li>
    })
 
-
+// suggested matches 
    suggestedMatches = searchMatches.map((match, index) => (
     <img key={index} src={match.image} alt={match.name} className="searchImage" 
     onClick={() =>
@@ -179,7 +229,7 @@ let suggestedMatches
         
         <div className = "sidebar">
         <form  onSubmit={handleFetchAlbumMatches}>
-            <h3>Build a collage of your favourite albums</h3>
+            
             <label htmlFor="config-checkbox">
             Show Grid Configuation</label>
           <input 
@@ -192,16 +242,17 @@ let suggestedMatches
             <div className="canvas-config">
         
           <label htmlFor="checkbox">
-            Show artist and album list</label>
+            Show artist and album list
           <input 
           type="checkbox" 
           id="checkbox"
           value={listChecked} 
            onChange = {handleListCheckChange}
         />
+        </label>
 
           <label htmlFor="grid-dimensions-rows">
-            Grid Rows</label>
+            Grid Rows
           <input className="num-input"
           type="number" 
           id="grid-dimensions-rows" 
@@ -209,8 +260,10 @@ let suggestedMatches
           value={rows} 
           onChange={handleRowChange} 
           />
+          </label>
+
           <label htmlFor="grid-dimensions-columns">
-            Grid Columns</label>
+            Grid Columns
           <input className="num-input"
           type="number" 
           id="grid-dimensions-columns" 
@@ -218,7 +271,10 @@ let suggestedMatches
           value={columns} 
           onChange={handleColumnChange} 
           />
+            </label>
+            
 
+            
          
           
         
@@ -233,7 +289,7 @@ let suggestedMatches
               onChange={(e) => setSearchInput(e.target.value)}
             >
             </input>
-            <button>Submit</button>
+            <button>Search</button>
         </form>
 
         <div className="selected-album">
@@ -244,6 +300,8 @@ let suggestedMatches
         </div>
         <button onClick={addToImageGrid}>Add to collage</button>
         <button onClick={clearImageGrid}>Clear collage</button>
+        <button type="button" onClick={handleDownloadImage}>Download Collage as JPG</button>
+
         
         <div className="search-image-results">
              {suggestedMatches} 
@@ -253,17 +311,37 @@ let suggestedMatches
 
         </div>
 
+            
+        <div id="print" className="print">
+        
+        {imageGridImg.length > 0 ? 
         <div className="canvas" style={{ gridTemplate }}>
-        {imageGridImg}
-      </div>
+         {imageGridImg}
+        </div> : 
+        
+        <div className="placeholder-text">
+            <h1>Welcome to the Album Art Collage Maker</h1>
+            <h3>Build a collage of your favourite album covers by simply searching for an artist or album.</h3> 
+               <ul className="placeholder-ul">
+               <li>Can't remember the name of an album? Closest matches to your search will appear below your the selected album.
+               Clicking on one of them will make it your active selected cover.</li>
+              <li>Use the configuation options to set the size of your collage or toggle a list of your choices.</li>
+              <li>Drag and drop to rearrange your collage.</li> 
+              <li>Double clicking a cover on your collage will remove it or you can clear all your choices from the sidebar.</li>
+              <li>Once you're happy download your creation as a jpeg.</li>
 
-        <div className='canvas-list'>
-                {listChecked ?  <ul>
-                    {canvasList}
-                </ul>:null}
-              
-
+               </ul>
         </div>
+ }
+    {listChecked ? <div className='canvas-list'>  
+                <ul>
+                    {canvasList}
+                </ul>  
+                    </div>
+                            :null}
+              </div>
+
+      
 
         </div>
     )
