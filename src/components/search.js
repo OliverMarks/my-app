@@ -49,20 +49,32 @@ let suggestedMatches
     }
   
     // download the collage as a png 
-    const handleDownloadImage = async () => {
+    // const handleDownloadImage = async () => {
+    //   const element = document.getElementById('print');
+    //   const canvas = await html2canvas(element);
+    //   const data = canvas.toDataURL('image/png');
+    //   const link = document.createElement('a');
+    //   link.href = data;
+    //   link.download = 'downloaded-image.png';
+    
+    //   document.body.appendChild(link);
+    //   link.click();
+    //   document.body.removeChild(link);
+    // };
+    
+    const handleDownloadImage = () => {
       const element = document.getElementById('print');
-      const canvas = await html2canvas(element);
-      const data = canvas.toDataURL('image/png');
-      const link = document.createElement('a');
-      link.href = data;
-      link.download = 'downloaded-image.png';
-    
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      html2canvas(element).then(function(canvas) {
+        canvas.toBlob(function(blob) {
+          const link = document.createElement('a');
+          link.download = 'downloaded-image.jpg';
+          link.href = URL.createObjectURL(blob);
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }, 'image/jpeg', 0.9);
+      });
     };
-    
-    
     
     
 
@@ -298,9 +310,12 @@ let suggestedMatches
             <img src={selectedAlbum.image} alt="selected album" className='selected-album-cover'></img>
 
         </div>
+
+        <div className="sidebar-btns">
         <button onClick={addToImageGrid}>Add to collage</button>
         <button onClick={clearImageGrid}>Clear collage</button>
-        <button type="button" onClick={handleDownloadImage}>Download Collage as JPG</button>
+        <button type="button" onClick={handleDownloadImage}>Download Collage as jpeg</button>
+          </div>
 
         
         <div className="search-image-results">
@@ -315,7 +330,7 @@ let suggestedMatches
         <div id="print" className="print">
         
         {imageGridImg.length > 0 ? 
-        <div className="canvas" style={{ gridTemplate }}>
+        <div className="canvas"  style={{ gridTemplate }}>
          {imageGridImg}
         </div> : 
         

@@ -21,6 +21,7 @@
 
 button {
   cursor: pointer;
+  
 }
 
 .container {
@@ -43,6 +44,10 @@ button {
 .selected-album {
   padding: 5px;
   margin-bottom: 5px ;
+}
+
+.selected-album > button {
+  margin: 3px; 
 }
 
 .selected-album > h1 {
