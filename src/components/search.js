@@ -174,7 +174,7 @@ let suggestedMatches
         }
       ]);
     } else {
-      alert("Grid limit reached, use grid config to resize grid");
+      alert("Grid limit reached. Use grid config to resize grid");
     }
   };
 
@@ -350,6 +350,7 @@ let suggestedMatches
             </input>
             <button className="sidebar-btn">Search</button>
         </form>
+           
           
         <div className="selected-album">
             <h1>{selectedAlbum.title}</h1>
@@ -359,9 +360,9 @@ let suggestedMatches
         </div>
 
         <div className="sidebar-btns">
-        <button className="sidebar-btn" onClick={addToImageGrid}>Add to collage</button>
-        <button className="sidebar-btn" onClick={clearImageGrid}>Clear collage</button>
-        <button className="sidebar-btn" type="button" onClick={handleDownloadImage}>Download Collage as jpeg</button>
+        <button className="sidebar-btn" onClick={addToImageGrid}>Add to grid</button>
+        <button className="sidebar-btn" onClick={clearImageGrid}>Clear all</button>
+        <button className="sidebar-btn" type="button" onClick={handleDownloadImage}>Download as jpeg</button>
           </div>
 
         
@@ -369,9 +370,10 @@ let suggestedMatches
              {suggestedMatches} 
             
             
-        </div>
+        </div> 
 
         </div>
+        
  :null }
             
         <div id="print" className="print">

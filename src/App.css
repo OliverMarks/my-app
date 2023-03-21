@@ -59,6 +59,11 @@ text-transform: capitalize;
   
 }
 
+.sidebar-btn:hover {
+  border: 0.2em solid black;
+
+}
+
 
 .selected-album {
   padding: 5px;
@@ -106,7 +111,9 @@ text-transform: capitalize;
   padding: 5px;
   width: 100vh;
  
-  height: 97vh;
+  min-height: -moz-available;
+  min-height: -webkit-fill-available;
+  min-height: fill-available;
     overflow-x: hidden;
     overflow-y: hidden;
   background-color: rgb(57, 53, 53);
@@ -162,6 +169,7 @@ text-transform: capitalize;
 
  li {
   list-style: square;
+  font-size: 1vw;
 
 }
 
@@ -205,7 +213,17 @@ label {
   border-radius: 20px;
   padding: 4px;
   border: solid 3px rgb(255, 200, 87);
+  
 
+
+}
+
+#albumSearch:placeholder-shown {
+  text-transform: capitalize;
+}
+
+img {
+  color: white;
 }
 
 .welcome-text {
@@ -273,9 +291,15 @@ label {
   border-radius: 12px;
   font-family: 'Source Code Pro', monospace;
   text-align: center;
-  background-color:rgb(255, 200, 87);
-border: 0.2em solid white;
+  background-color: white;
+border: 0.2em solid rgb(255, 200, 87);
 cursor: pointer;
+}
+
+.welcome-btn:hover {
+  
+background-color:rgb(255, 200, 87);
+border: 0.2em solid white;
 }
 
 .icon {
@@ -286,4 +310,5 @@ cursor: pointer;
 
 .print {
   display: flex;
+  height: 100vh;
 }
