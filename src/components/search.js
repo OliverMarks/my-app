@@ -25,27 +25,23 @@ let suggestedMatches
 
    
       // Columns and rows of Grid
-    const [rows, setRows] = useState(4);
-    const [columns, setColumns] = useState(4);
+    const [dimension, setDimensions] = useState(4);
+   
   
     const handleRowChange = (event) => {
       const value = parseInt(event.target.value, 10);
-      setRows(value);
+      setDimensions(value);
     };
   
-    const handleColumnChange = (event) => {
-      const value = parseInt(event.target.value, 10);
-      setColumns(value);
-    };
-
+   
      // Maximum number of images
-  const [maxImages, setMaxImages] = useState(rows * columns);
+  const [maxImages, setMaxImages] = useState(dimension * dimension);
 
   useEffect(() => {
-    setMaxImages(rows * columns);
-  }, [rows, columns]);
+    setMaxImages(dimension * dimension);
+  }, [dimension]);
   
-  const gridTemplate = `repeat(${rows}, 1fr) / repeat(${columns}, 1fr)`;
+  const gridTemplate = `repeat(${dimension}, 1fr) / repeat(${dimension}, 1fr)`;
 
     
    
@@ -77,8 +73,13 @@ let suggestedMatches
     
     const handleDownloadImage = () => {
       const element = document.getElementById('print');
-      html2canvas(element).then(function(canvas) {
+      html2canvas(element, {
+        allowTaint: true,
+        useCORS: true
+      }).then(function(canvas) {
+       
         canvas.toBlob(function(blob) {
+         
           const link = document.createElement('a');
           link.download = 'downloaded-image.jpg';
           link.href = URL.createObjectURL(blob);
@@ -88,6 +89,7 @@ let suggestedMatches
         }, 'image/jpeg', 0.9);
       });
     };
+    
     
     
 
@@ -282,26 +284,17 @@ let suggestedMatches
         </label>
 
           <label htmlFor="grid-dimensions-rows">
-            Rows
+            Grid Size (Rows & Columns)
           <input className="num-input"
           type="number" 
           id="grid-dimensions-rows" 
           min={1}
-          value={rows} 
+          value={dimension} 
           onChange={handleRowChange} 
           />
           </label>
 
-          <label htmlFor="grid-dimensions-columns">
-            Columns
-          <input className="num-input"
-          type="number" 
-          id="grid-dimensions-columns" 
-          min={1}
-          value={columns} 
-          onChange={handleColumnChange} 
-          />
-            </label>
+          
             
 
             
