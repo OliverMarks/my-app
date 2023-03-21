@@ -1,6 +1,9 @@
 .App {
   text-align: center;
-  
+  font-family: 'Source Code Pro', monospace;
+  background-color: rgb(57, 53, 53);
+
+/* font-family: 'Work Sans', sans-serif; */
 }
 
 
@@ -20,21 +23,29 @@
 }
 
 button {
+  font-family: 'Source Code Pro', monospace;
+  margin: 1px; 
   cursor: pointer;
   
 }
 
 .container {
   display: flex;
+  height: 100vh;
+  min-height: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
   
 }
 
 .sidebar {
   overflow: auto;
-  max-height: 700px;
-  max-width: 300px;
+  max-height: 100vh;
+  max-width: 20%;
   padding: 5px;
   border-right: solid 2px black;
+  background-color: white;
+
                                  
 
 }
@@ -84,21 +95,33 @@ button {
 
 .canvas {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr; 
-  grid-template-rows: max-content;
-  width: 60vw;
-  height: fit-content;
-  column-gap: 3px;
-  padding:15px;
   
+  width: 100vh;
+ 
+  height: 100vh;
+    overflow-x: hidden;
+    overflow-y: hidden;
   background-color: rgb(57, 53, 53);
+  margin-bottom: 2px;
   
+  
+}
+
+.img-container {
+  grid-column: span 1; /* each item should span 1 column */
+  grid-row: span 1; 
+  min-width: 0; 
+  min-height: 0;/* ensure the item can shrink if necessary */
+  padding: 2%;
+  
+   /* add padding to create some additional space */
 }
 
 .canvas-image {
   width: 100%;
   height: auto;
   border: solid 2px rgb(57, 53, 53);
+  
   
 }
 
@@ -113,11 +136,14 @@ button {
 
 
 .canvas-list {
+ 
   text-align: left;
   padding: 5px;
   color:white;
   background-color: rgb(57, 53, 53);
-  width: 300px;
+  width: auto;
+  
+
 
   
 
@@ -157,18 +183,79 @@ label {
 }
 
 
-.placeholder-text {
+.welcome-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #393535;
+  color: white;
   padding: 5px;
   width: 100%;
 }
 
- .placeholder-ul {
-  display: inline-block;
-  text-align: left;
+.welcome-h1 {
+  color: #ffc857;
+
 }
 
-.placeholder-ul > li {
+.tips-h1 {
+  color: #ffc857;
+
+}
+
+.icon-container {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+@media only screen and (max-width: 600px) {
+  .icon-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .container {
+    overflow-x: scroll;
+    overflow-y: scroll;
+    height: 100%;
+  }
+}
+
+.icon-section {
+  /* border: 2px white solid ;  */
+  margin: 5px;
+  border-radius: 15px;
+  padding: 10px;
+  width: 12em;
+  
+}
+
+ .welcome-ul {
+  display: inline-block;
+  text-align: left;
+ 
+ 
+}
+
+.welcome-ul > li {
   margin: 10px;
+}
+
+.welcome-btn {
+  font-size:x-large;
+  padding: 10px;
+  border-radius: 12px;
+  font-family: 'Source Code Pro', monospace;
+  text-align: center;
+  background-color:rgb(255, 200, 87);
+border: 0.2em solid white;
+}
+
+.icon {
+  font-size: 4em;
+  color: rgb(255, 200, 87);
+
 }
 
 .print {

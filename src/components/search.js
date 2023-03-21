@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import html2canvas from 'html2canvas'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMagnifyingGlass, faBorderAll, faFileArrowDown} from '@fortawesome/free-solid-svg-icons'
 
 
 
@@ -8,6 +10,11 @@ let suggestedMatches
 
  export default function Search () {
    
+  const [getStarted, setGetStarted] = React.useState(false)
+
+  const handleGetStarted = () => {
+    setGetStarted(true)
+  }
 
     // config checkbox
     const [configChecked, setConfigChecked] = React.useState(false)
@@ -38,8 +45,14 @@ let suggestedMatches
     setMaxImages(rows * columns);
   }, [rows, columns]);
   
-    const gridTemplate = `repeat(${rows}, 1fr) / repeat(${columns}, 1fr)`;
-  
+  const gridTemplate = `repeat(${rows}, 1fr) / repeat(${columns}, 1fr)`;
+
+    
+   
+    
+      
+      
+    
   
     // show list checkboxes
     const [listChecked, setListChecked] = React.useState(false)
@@ -105,7 +118,7 @@ let suggestedMatches
    const [searchInput, setSearchInput] = React.useState("")
    const [imageGrid, setImageGrid] = React.useState([])
     
-    
+
    
    const fetchAlbumMatches = (searchInput) => {
    
@@ -196,6 +209,7 @@ let suggestedMatches
 
   const imageGridImg = imageGrid.slice(0, maxImages).map((albumImage, idx) => {
     return (  
+      <div className="img-container">
       <img
         key={idx}
         src={albumImage.image}
@@ -208,6 +222,7 @@ let suggestedMatches
         onDragOver={(e) => handleDragOver(e)}
         onDrop={(e) => handleDrop(e, idx)}
       />
+      </div>
     );
   });
 
@@ -238,8 +253,11 @@ let suggestedMatches
       
       <div className='container'>
 
-        
+{getStarted ? 
         <div className = "sidebar">
+
+          
+
         <form  onSubmit={handleFetchAlbumMatches}>
             
             <label htmlFor="config-checkbox">
@@ -264,7 +282,7 @@ let suggestedMatches
         </label>
 
           <label htmlFor="grid-dimensions-rows">
-            Grid Rows
+            Rows
           <input className="num-input"
           type="number" 
           id="grid-dimensions-rows" 
@@ -275,7 +293,7 @@ let suggestedMatches
           </label>
 
           <label htmlFor="grid-dimensions-columns">
-            Grid Columns
+            Columns
           <input className="num-input"
           type="number" 
           id="grid-dimensions-columns" 
@@ -292,6 +310,8 @@ let suggestedMatches
         
       </div>
       :null}
+
+     
             
             <input 
             type="text" 
@@ -303,7 +323,7 @@ let suggestedMatches
             </input>
             <button>Search</button>
         </form>
-
+          
         <div className="selected-album">
             <h1>{selectedAlbum.title}</h1>
             <h2>{selectedAlbum.artist}</h2>
@@ -325,29 +345,56 @@ let suggestedMatches
         </div>
 
         </div>
-
+ :null }
             
         <div id="print" className="print">
         
         {imageGridImg.length > 0 ? 
-        <div className="canvas"  style={{ gridTemplate }}>
-         {imageGridImg}
-        </div> : 
-        
-        <div className="placeholder-text">
-            <h1>Welcome to the Album Art Collage Maker</h1>
-            <h3>Build a collage of your favourite album covers by simply searching for an artist or album.</h3> 
-               <ul className="placeholder-ul">
+    <div className="canvas"  style={{ gridTemplate   }}>
+     {imageGridImg }
+    </div> : 
+    <div className="welcome-text" style={{display: imageGridImg.length > 0 ? 'none' : 'flex', width: !getStarted ? '100vw' : '65vw'}}>
+        {getStarted ?  
+        <>
+        <h1 className="tips-h1">Top tips</h1>
+            <ul className="welcome-ul">
                <li>Can't remember the name of an album? Closest matches to your search will appear below your the selected album.
                Clicking on one of them will make it your active selected cover.</li>
-              <li>Use the configuation options to set the size of your collage or toggle a list of your choices.</li>
-              <li>Drag and drop to rearrange your collage.</li> 
+              <li>Use the configuration options to set the size of your collage or toggle a list of your choices.</li>
+              <li>Drag and drop covers to rearrange your collage.</li> 
               <li>Double clicking a cover on your collage will remove it or you can clear all your choices from the sidebar.</li>
-              <li>Once you're happy download your creation as a jpeg.</li>
+              <li>Once you're happy download your creation as a jpeg!</li> 
+            </ul> 
+            </>
+            : 
+            <>
+                <h1 className="welcome-h1">Welcome to the Album Art Collage Maker</h1>
+                <h3>Build a collage of your favourite album covers by simply searching for an artist or album.</h3> 
+                <div className="icon-container">
+                  <div className="icon-section">
+                    <h2>Search</h2>
+                    <FontAwesomeIcon className="icon" icon={faMagnifyingGlass} />
+                    <p>Search for your favourite Album Covers</p>
+                  </div>
+                  <div className="icon-section">
+                    <h2>Create</h2>
+                    <FontAwesomeIcon className="icon" icon={faBorderAll}  />
+                    <p>Add them to your custom grid canvas</p>
+                  </div>
+                  <div className="icon-section">
+                    <h2>Download</h2>
+                    <FontAwesomeIcon className="icon" icon={faFileArrowDown} />
+                    <p>Download your creation and share with friends</p>
+                  </div>
+                </div>
+            </>
+        }
+        {!getStarted && <button className="welcome-btn" onClick={handleGetStarted}>GET STARTED</button>}
+    </div>
+}
 
-               </ul>
-        </div>
- }
+   
+   
     {listChecked ? <div className='canvas-list'>  
                 <ul>
                     {canvasList}
