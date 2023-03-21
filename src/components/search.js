@@ -8,6 +8,8 @@ import { faMagnifyingGlass, faBorderAll, faFileArrowDown} from '@fortawesome/fre
 let suggestedMatches
 
 
+
+
  export default function Search () {
    
   const [getStarted, setGetStarted] = React.useState(false)
@@ -33,6 +35,20 @@ let suggestedMatches
       setDimensions(value);
     };
   
+
+    // color picker states 
+    const [color, setColor] = useState(null);
+    const [fontColor, setFontColor] = useState(null);
+
+
+    // set gap
+    const [gap, setGap] = useState(null);
+
+    const handleGapChange = (event) => {
+      const value = parseInt(event.target.value, 10);
+      setGap(value);
+    };
+
    
      // Maximum number of images
   const [maxImages, setMaxImages] = useState(dimension * dimension);
@@ -57,19 +73,7 @@ let suggestedMatches
       setListChecked(!listChecked)
     }
   
-    // download the collage as a png 
-    // const handleDownloadImage = async () => {
-    //   const element = document.getElementById('print');
-    //   const canvas = await html2canvas(element);
-    //   const data = canvas.toDataURL('image/png');
-    //   const link = document.createElement('a');
-    //   link.href = data;
-    //   link.download = 'downloaded-image.png';
-    
-    //   document.body.appendChild(link);
-    //   link.click();
-    //   document.body.removeChild(link);
-    // };
+  
     
     const handleDownloadImage = () => {
       const element = document.getElementById('print');
@@ -211,7 +215,7 @@ let suggestedMatches
 
   const imageGridImg = imageGrid.slice(0, maxImages).map((albumImage, idx) => {
     return (  
-      <div className="img-container">
+      <div className="img-container" key={idx}>
       <img
         key={idx}
         src={albumImage.image}
@@ -253,7 +257,7 @@ let suggestedMatches
       
       
       
-      <div className='container'>
+      <div className='container' style = {{backgroundColor:color}}>
 
 {getStarted ? 
         <div className = "sidebar">
@@ -274,7 +278,7 @@ let suggestedMatches
             <div className="canvas-config">
         
           <label htmlFor="checkbox">
-            Show artist and album list
+            Show artist & album list
           <input 
           type="checkbox" 
           id="checkbox"
@@ -294,6 +298,36 @@ let suggestedMatches
           />
           </label>
 
+          <label htmlFor="grid-padding">
+            Grid Gap (px)
+          <input className="num-input"
+          type="number" 
+          id="grid-padding" 
+          min={1}
+          value={gap} 
+          onChange={handleGapChange} 
+          />
+          </label>
+
+          <label htmlFor="bg-color-picker">
+            Select background color
+            <input 
+            className="color-picker"
+            type="color" 
+            value={color} 
+            onChange={e => setColor(e.target.value)}
+            id="bg-color-picker" />
+          </label>
+
+          <label htmlFor="font-color-picker">
+            Select font color
+            <input 
+            className="color-picker"
+            type="color" 
+            value={fontColor} 
+            onChange={e => setFontColor(e.target.value)} 
+            id="font-color-picker"/>
+          </label>
           
             
 
@@ -314,7 +348,7 @@ let suggestedMatches
               onChange={(e) => setSearchInput(e.target.value)}
             >
             </input>
-            <button>Search</button>
+            <button className="sidebar-btn">Search</button>
         </form>
           
         <div className="selected-album">
@@ -325,9 +359,9 @@ let suggestedMatches
         </div>
 
         <div className="sidebar-btns">
-        <button onClick={addToImageGrid}>Add to collage</button>
-        <button onClick={clearImageGrid}>Clear collage</button>
-        <button type="button" onClick={handleDownloadImage}>Download Collage as jpeg</button>
+        <button className="sidebar-btn" onClick={addToImageGrid}>Add to collage</button>
+        <button className="sidebar-btn" onClick={clearImageGrid}>Clear collage</button>
+        <button className="sidebar-btn" type="button" onClick={handleDownloadImage}>Download Collage as jpeg</button>
           </div>
 
         
@@ -343,7 +377,7 @@ let suggestedMatches
         <div id="print" className="print">
         
         {imageGridImg.length > 0 ? 
-    <div className="canvas"  style={{ gridTemplate   }}>
+    <div className="canvas"  style={{ gridTemplate, backgroundColor: color, gap:gap  }}>
      {imageGridImg }
     </div> : 
     <div className="welcome-text" style={{display: imageGridImg.length > 0 ? 'none' : 'flex', width: !getStarted ? '100vw' : '65vw'}}>
@@ -388,7 +422,7 @@ let suggestedMatches
 
    
    
-    {listChecked ? <div className='canvas-list'>  
+    {listChecked ? <div className='canvas-list' style={{ backgroundColor: color,  color: fontColor}}>  
                 <ul>
                     {canvasList}
                 </ul>  
