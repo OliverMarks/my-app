@@ -367,7 +367,7 @@ let suggestedMatches
         <button className="sidebar-btn" type="button" onClick={handleDownloadImage}>Download as jpeg</button>
           </div>
 
-          </div>
+            </div>
         
         <div className="search-image-results">
              {suggestedMatches} 
