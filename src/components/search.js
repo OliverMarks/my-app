@@ -353,11 +353,13 @@ let suggestedMatches
            
           
         <div className="selected-album">
+            <div className="titles">
             <h1>{selectedAlbum.title}</h1>
             <h2>{selectedAlbum.artist}</h2>
+            </div>
             <img src={selectedAlbum.image} alt="selected album" className='selected-album-cover'></img>
 
-        </div>
+        
 
         <div className="sidebar-btns">
         <button className="sidebar-btn" onClick={addToImageGrid}>Add to grid</button>
@@ -365,6 +367,7 @@ let suggestedMatches
         <button className="sidebar-btn" type="button" onClick={handleDownloadImage}>Download as jpeg</button>
           </div>
 
+          </div>
         
         <div className="search-image-results">
              {suggestedMatches} 

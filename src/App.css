@@ -8,19 +8,6 @@
 
 
 
-.App-header {
-  background-color: #393535;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(6px + 2vmin);
-  color: white;
-  height: 100px;
-  padding: 5px;
-  border-bottom: solid 3px white;
-}
 
 
 
@@ -312,3 +299,75 @@ border: 0.2em solid white;
   display: flex;
   height: 100vh;
 }
+
+@media only screen and (max-width: 1065px) {
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  min-height: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+  
+}
+
+.sidebar {
+  overflow: auto;
+  max-height: 25vh;
+  max-width: 100%;
+  padding: 5px;
+  border-right: solid 2px black;
+  background-color: white;                          
+  
+  }                      
+
+ 
+
+  .welcome-ul > li {
+    font-size: 10px;
+    margin: 10px;
+  }
+
+  .selected-album {
+    display: flex
+  }
+
+  .titles {
+    display: flex;
+    flex-direction: column;
+    margin-right: 4px; 
+    
+  }
+
+  .titles > h1 {
+    font-size: 22px;
+  }
+
+  .titles > h2 {
+    font-size: 16px; 
+  }
+
+  
+
+}
+
+
+@media screen and (max-width: 1200px) and (min-width: 600px) {
+  .canvas {
+    display: grid;
+    padding: 5px;
+    width: 60vh;
+   
+    min-height: -moz-available;
+    min-height: -webkit-fill-available;
+    min-height: fill-available;
+      overflow-x: hidden;
+      overflow-y: hidden;
+    background-color: rgb(57, 53, 53);
+    margin-bottom: 2px;
+    
+    
+  }
+}
+
