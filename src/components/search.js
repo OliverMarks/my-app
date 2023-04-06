@@ -263,7 +263,7 @@ let suggestedMatches
         <div className = "sidebar">
 
           
-
+        <div className="config-searchBar">
         <form  onSubmit={handleFetchAlbumMatches}>
             
             <label htmlFor="config-checkbox">
@@ -339,7 +339,7 @@ let suggestedMatches
       :null}
 
      
-            
+            <div className="search-submit">
             <input 
             type="text" 
             placeholder='Search for an album or artist '
@@ -349,8 +349,10 @@ let suggestedMatches
             >
             </input>
             <button className="sidebar-btn">Search</button>
+            </div>
         </form>
-           
+        
+           </div>
           
         <div className="selected-album">
             <div className="titles">
@@ -401,7 +403,7 @@ let suggestedMatches
             : 
             <>
                 <h1 className="welcome-h1">Welcome to the Album Art Collage Maker</h1>
-                <h3>Build a collage of your favourite album covers by simply searching for an artist or album.</h3> 
+                <h3 className="welcome-h3">Build a collage of your favourite album covers by simply searching for an artist or album.</h3> 
                 <div className="icon-container">
                   <div className="icon-section">
                     <h2>Search</h2>
