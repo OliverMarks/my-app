@@ -1,6 +1,5 @@
 import './App.css';
-import Header from "./components/header"
-import Search from './components/search'
+import Layout from './components/Layout'
 
 
 function App() {
@@ -9,7 +8,7 @@ function App() {
     <div className="App">
      
     
-      <Search/>
+      <Layout/>
       
     </div>
   );
