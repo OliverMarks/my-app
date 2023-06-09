@@ -13,21 +13,32 @@ import SearchSection from "./SearchSection";
 
 
  export default function Layout () {
-   
+
+   // handling progress from the welcome page
   const [getStarted, setGetStarted] = React.useState(false)
 
+  // grid of album art images 
   const [imageGrid, setImageGrid] = React.useState([])
 
-    // config checkbox
-    const [configChecked, setConfigChecked] = React.useState(false)
-  
-    const handleConfigCheckChange = () => {
-      setConfigChecked(!configChecked)
-    }
+  // show list checkboxes
+  const [listChecked, setListChecked] = React.useState(false)
 
+  // config checkbox
+  const [configChecked, setConfigChecked] = React.useState(false)
+
+   // color picker states 
+   const [color, setColor] = useState(null);
+   const [fontColor, setFontColor] = useState(null);
+
+   // set gap
+   const [gap, setGap] = useState(null);
    
-      // Columns and rows of Grid
+    // Columns and rows of Grid
     const [dimension, setDimensions] = useState(4);
+
+    // max number of images the canvas grid can hold
+    const [maxImages, setMaxImages] = useState(dimension * dimension);
+
    
   
     const handleRowChange = (event) => {
@@ -35,14 +46,10 @@ import SearchSection from "./SearchSection";
       setDimensions(value);
     };
   
-
-    // color picker states 
-    const [color, setColor] = useState(null);
-    const [fontColor, setFontColor] = useState(null);
-
-
-    // set gap
-    const [gap, setGap] = useState(null);
+    const handleConfigCheckChange = () => {
+      setConfigChecked(!configChecked)
+    }
+   
 
     const handleGapChange = (event) => {
       const value = parseInt(event.target.value, 10);
@@ -51,30 +58,18 @@ import SearchSection from "./SearchSection";
 
    
      // Maximum number of images
-  const [maxImages, setMaxImages] = useState(dimension * dimension);
-
   useEffect(() => {
     setMaxImages(dimension * dimension);
   }, [dimension]);
   
   const gridTemplate = `repeat(${dimension}, 1fr) / repeat(${dimension}, 1fr)`;
 
-    
-   
-    
-      
-      
-    
-  
-    // show list checkboxes
-    const [listChecked, setListChecked] = React.useState(false)
-  
     const handleListCheckChange = () => {
       setListChecked(!listChecked)
     }
   
   
-    
+// Downloads the grid and list (if checked)    
     const handleDownloadImage = () => {
       const element = document.getElementById('print');
       html2canvas(element, {
@@ -93,25 +88,14 @@ import SearchSection from "./SearchSection";
         }, 'image/jpeg', 0.9);
       });
     };
-    
-    
-    
-  
 
-
-
-
-
-
+  // handles removing an invidual image from the grid 
 
   const handleRemoveFromImageGrid = (index) => {
     setImageGrid((prevImageGrid) => prevImageGrid.filter((_, i) => i !== index));
   };
   
-
-
-  
-  // handling the drag functionality 
+  // handling the drag and drop functionality 
   const handleDragStart = (e, index) => {
     e.dataTransfer.setData("index", index);
   };
@@ -131,6 +115,7 @@ import SearchSection from "./SearchSection";
     }
   };
 
+  // creates the album cover grid
   const imageGridImg = imageGrid.slice(0, maxImages).map((albumImage, idx) => {
     return (  
       <div className="img-container" key={idx}>
@@ -151,12 +136,10 @@ import SearchSection from "./SearchSection";
   });
 
  // List of albums in the collage 
-
    const canvasList = imageGrid.slice(0, maxImages).map((album, idx) => {
                 return <li key={idx}>{`${album.artist} - ${album.title}`}</li>
    })
 
-// suggested matches 
    
    
   
