@@ -85,7 +85,7 @@ export default function SearchSection ({imageGrid, setImageGrid, handleDownloadI
   
 
   suggestedMatches = searchMatches.map((match, index) => (
-    <img key={index} src={match.image} alt={match.name} className="searchImage" 
+    <img key={index} src={match.image} onError={e => e.target.style.display = 'none'} alt={match.name} className="searchImage" 
     onClick={() =>
         setSelectedAlbum({
           artist: match.artist,
@@ -127,20 +127,21 @@ return (
             <h1>{selectedAlbum.title}</h1>
             <h2>{selectedAlbum.artist}</h2>
             </div>
-            <img src={selectedAlbum.image} alt="selected album" className='selected-album-cover'></img>
+            {selectedAlbum.title ? <img src={selectedAlbum.image}   alt="selected album" className='selected-album-cover'></img> : null}
 
         
-
+        {selectedAlbum.title ?
         <div className="sidebar-btns">
         <button className="sidebar-btn" onClick={addToImageGrid}>Add to grid</button>
         <button className="sidebar-btn" onClick={clearImageGrid}>Clear all</button>
         <button className="sidebar-btn" type="button" onClick={handleDownloadImage}>Download as jpeg</button>
           </div>
+          : null}
 
             </div>
         
         <div className="search-image-results">
-             {suggestedMatches}  
+             {suggestedMatches}
         </div> 
 </>
         
