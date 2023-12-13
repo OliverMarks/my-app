@@ -7,6 +7,11 @@
 }
 
 
+/* Apply a specific font to the search bar input */
+input[type="text"] {
+  font-family: 'Source Code Pro', monospace;
+  /* Replace "Your Desired Font" with the actual font you want to use */
+}
 
 
 
